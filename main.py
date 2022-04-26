@@ -1,4 +1,3 @@
-from encodings import search_function
 from typing import List
 
 
