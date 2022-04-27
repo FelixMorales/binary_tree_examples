@@ -56,8 +56,6 @@ class Node:
         
         elements.append(self.value)
 
-
-    
     def search(self, value):
 
         if value == self.value:
@@ -76,6 +74,58 @@ class Node:
                 return self.right.search(value)
             else:
                 return None
+
+
+    def find_min(self):
+
+        min_value = self.value
+        if self.left:
+            min_value = self.left.find_min()
+        
+        return min_value
+
+    def find_max(self):
+
+        max_value = self.value
+        if self.right:
+            max_value = self.right.find_max()
+
+        return max_value
+
+    def delete(self, value):
+        
+        if value < self.value:
+            if self.left:
+                new_left = self.left.delete(value)
+                self.left = new_left
+        
+        elif value > self.value:
+            if self.right:
+                new_right = self.right.delete(value)
+                self.right = new_right
+
+        else:
+            if self.right is None and self.left is None:
+                return None
+            
+            if self.right is None:
+                return self.left
+            
+            if self.left is None:
+                return self.right
+            
+            max_value = self.left.find_max()
+
+            self.value = max_value
+            self.left = self.left.delete(max_value)
+        
+        return self
+    
+    def update(self, current_value, new_value):
+
+        self.delete(current_value)
+
+        self.insert(new_value)
     
     def __str__(self) -> str:
             show_info = ''
@@ -105,8 +155,19 @@ class BinaryTree:
             print(f'value {value} not found in tree')
         else:
             print(f'value found in node: {result}')
+    
+    def get_max(self):
+        return self.root.find_max()
+    
+    def get_min(self):
+        return self.root.find_min()
 
-
+    
+    def delete(self, value):
+        return self.root.delete(value)
+    
+    def update(self, current_value, new_value):
+        return self.root.update(current_value=current_value, new_value=new_value)
 
     def print_traversal(self, traversal_type='in'):
         elements = []
@@ -134,7 +195,7 @@ class BinaryTree:
 
 tree = BinaryTree(value=10)
 
-array = [6, 7, 2, 15, 12, 20]
+array = [6, 7, 2, 15, 12, 20, 14, 13]
 
 for i in range(len(array)):
     tree.insert_value(value=array[i])
@@ -154,3 +215,21 @@ tree.print_traversal(traversal_type='post')
 search_value = 15
 print(f'\nsearch value: {search_value}')
 tree.search(value=search_value)
+
+print(f'\nmin value is: {tree.get_min()}')
+
+print(f'\nmax value is: {tree.get_max()}')
+
+delete_value = 10
+print(f'\ndelete value: {delete_value}')
+tree.delete(delete_value)
+
+print('\ntree after delete: ')
+tree.print_tree(node=tree.root, is_root=True)
+
+update_value = (15, 25)
+print(f'\nupdate value: {update_value[0]} to {update_value[1]}')
+tree.update(current_value=update_value[0], new_value=update_value[1])
+
+print('\ntree after update: ')
+tree.print_tree(node=tree.root, is_root=True)
