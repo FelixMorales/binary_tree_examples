@@ -128,15 +128,18 @@ class Node:
         self.insert(new_value)
 
     def print_tree(self, is_root=False):
-    
+        show_info = ''
+
         if is_root or self.right or self.left:
-            print(self)
+            show_info += f'{str(self)} \n'
 
         if self.left:
-            self.left.print_tree()
+            show_info += self.left.print_tree()
         
         if self.right:
-            self.right.print_tree()
+            show_info += self.right.print_tree()
+        
+        return show_info
             
     def __str__(self) -> str:
             show_info = ''
@@ -192,8 +195,8 @@ class BinaryTree:
 
         print(elements)
 
-    def print_tree(self):
-        self.root.print_tree(is_root=True)
+    def __str__(self):
+        return self.root.print_tree(is_root=True)
 
 array = [10, 6, 7, 2, 15, 12, 20, 14, 13]
 tree = BinaryTree(value=array[0])
@@ -205,7 +208,7 @@ print('\narray: ')
 print(array)
 
 print('\ntree structure: ')
-tree.print_tree()
+print(tree)
 
 print('\nin order trasversal:')
 tree.print_traversal(traversal_type='in')
@@ -229,11 +232,11 @@ print(f'\ndelete value: {delete_value}')
 tree.delete(delete_value)
 
 print('\ntree after delete: ')
-tree.print_tree()
+print(tree)
 
 update_value = (15, 25)
 print(f'\nupdate value: {update_value[0]} to {update_value[1]}')
 tree.update(current_value=update_value[0], new_value=update_value[1])
 
 print('\ntree after update: ')
-tree.print_tree()
+print(tree)
