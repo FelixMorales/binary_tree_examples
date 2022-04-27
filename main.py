@@ -126,7 +126,18 @@ class Node:
         self.delete(current_value)
 
         self.insert(new_value)
+
+    def print_tree(self, is_root=False):
     
+        if is_root or self.right or self.left:
+            print(self)
+
+        if self.left:
+            self.left.print_tree()
+        
+        if self.right:
+            self.right.print_tree()
+            
     def __str__(self) -> str:
             show_info = ''
             if self.left:
@@ -181,27 +192,20 @@ class BinaryTree:
 
         print(elements)
 
-    def print_tree(self, node: Node, is_root=False):
+    def print_tree(self):
+        self.root.print_tree(is_root=True)
 
-        if node and (node.left or node.right or is_root):
+array = [10, 6, 7, 2, 15, 12, 20, 14, 13]
+tree = BinaryTree(value=array[0])
 
-            print(node)
-            self.print_tree(node.left)
-            self.print_tree(node.right)
-            
-
-
-
-
-tree = BinaryTree(value=10)
-
-array = [6, 7, 2, 15, 12, 20, 14, 13]
-
-for i in range(len(array)):
+for i in range(1, len(array)):
     tree.insert_value(value=array[i])
 
-print('\n tree structure: ')
-tree.print_tree(node=tree.root, is_root=True)
+print('\narray: ')
+print(array)
+
+print('\ntree structure: ')
+tree.print_tree()
 
 print('\nin order trasversal:')
 tree.print_traversal(traversal_type='in')
@@ -225,11 +229,11 @@ print(f'\ndelete value: {delete_value}')
 tree.delete(delete_value)
 
 print('\ntree after delete: ')
-tree.print_tree(node=tree.root, is_root=True)
+tree.print_tree()
 
 update_value = (15, 25)
 print(f'\nupdate value: {update_value[0]} to {update_value[1]}')
 tree.update(current_value=update_value[0], new_value=update_value[1])
 
 print('\ntree after update: ')
-tree.print_tree(node=tree.root, is_root=True)
+tree.print_tree()
